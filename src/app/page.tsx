@@ -75,7 +75,7 @@ export default function Home() {
         <div className="mx-auto max-w-5xl px-4 flex h-16 items-center justify-between">
           <div className="flex items-center gap-3">
             <Image
-              src="/logo.png"
+              src="/nowe-klucze/logo.png"
               alt="Nowe Klucze Logo"
               width={200}
               height={70}
@@ -285,7 +285,7 @@ export default function Home() {
           <div className="flex flex-col items-center justify-center gap-4 text-center">
             <div className="flex items-center gap-3">
               <Image
-                src="/logo.png"
+                src="/nowe-klucze/logo.png"
                 alt="Nowe Klucze Logo"
                 width={200}
                 height={70}

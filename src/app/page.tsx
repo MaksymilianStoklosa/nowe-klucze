@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,9 +22,20 @@ import {
   Package,
   Clock,
   Navigation,
+  Menu,
+  X,
 } from "lucide-react";
+import { useState } from "react";
 
 export default function Home() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const navItems = [
+    { name: "Strona główna", href: "#" },
+    { name: "Usługi", href: "#uslugi" },
+    { name: "Produkty", href: "#produkty" },
+    { name: "Kontakt", href: "#kontakt" },
+  ];
   const services = [
     {
       icon: Key,
@@ -72,23 +85,85 @@ export default function Home() {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="mx-auto max-w-5xl px-4 flex h-16 items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Image
-              src="/nowe-klucze/logo.png"
-              alt="Nowe Klucze Logo"
-              width={200}
-              height={70}
-              className="object-contain"
-            />
-          </div>
-          <Button asChild size="lg">
-            <a href="tel:728899217">
-              <Phone className="mr-2 h-4 w-4" />
-              728 899 217
+        <div className="mx-auto max-w-5xl px-4">
+          <div className="flex h-16 items-center justify-between">
+            {/* Logo */}
+            <a
+              href="#"
+              className="flex items-center gap-3 hover:opacity-80 transition-opacity"
+            >
+              <Image
+                src="/nowe-klucze/logo.png"
+                alt="Nowe Klucze Logo"
+                width={200}
+                height={70}
+                className="object-contain"
+              />
             </a>
-          </Button>
+
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex items-center gap-6">
+              {navItems.map((item) => (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {item.name}
+                </a>
+              ))}
+            </nav>
+
+            {/* Desktop Phone Button */}
+            <Button asChild size="lg" className="hidden md:flex">
+              <a href="tel:728899217">
+                <Phone className="mr-2 h-4 w-4" />
+                728 899 217
+              </a>
+            </Button>
+
+            {/* Mobile Menu Button */}
+            <button
+              className="md:hidden p-2 hover:bg-accent rounded-md transition-colors"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
+            </button>
+          </div>
         </div>
+
+        {/* Mobile Navigation Overlay */}
+        {mobileMenuOpen && (
+          <div className="md:hidden fixed top-16 left-0 right-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/95 border-b shadow-lg z-50">
+            <div className="mx-auto max-w-5xl px-4 py-4">
+              <nav className="flex flex-col space-y-3">
+                {navItems.map((item) => (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    className="text-sm font-medium text-foreground/80 hover:text-foreground px-2 py-2 hover:bg-accent rounded-md transition-colors"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {item.name}
+                  </a>
+                ))}
+                <Separator className="my-2" />
+                <Button asChild className="w-full">
+                  <a href="tel:728899217">
+                    <Phone className="mr-2 h-4 w-4" />
+                    728 899 217
+                  </a>
+                </Button>
+              </nav>
+            </div>
+          </div>
+        )}
       </header>
 
       {/* Hero Section */}
@@ -96,7 +171,7 @@ export default function Home() {
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="/hero.jpeg"
+            src="/nowe-klucze/hero.jpeg"
             alt="Nowe Klucze"
             fill
             className="object-cover brightness-[0.35]"
@@ -147,7 +222,7 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section className="bg-muted/50 py-16">
+      <section id="uslugi" className="bg-muted/50 py-16 scroll-mt-16">
         <div className="mx-auto max-w-5xl px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
@@ -176,7 +251,7 @@ export default function Home() {
       </section>
 
       {/* Products Section */}
-      <section className="py-16">
+      <section id="produkty" className="py-16 scroll-mt-16">
         <div className="mx-auto max-w-5xl px-4">
           <div className="text-center mb-12">
             <Package className="h-12 w-12 text-primary mx-auto mb-4" />
@@ -220,6 +295,8 @@ export default function Home() {
                       ul. marsz. Józefa Piłsudskiego 18
                       <br />
                       Czechowice-Dziedzice
+                      <br />
+                      {"(Obok sklepu Bodzio Meble i Papierniczego)"}
                     </p>
                     <Button asChild variant="outline" size="sm">
                       <a
